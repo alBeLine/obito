@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>炸弹定时器案例</title>
+    <script src="./vue学习/utils/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #app {
+            width: 500px;
+            height: 400px;
+            margin: 100px auto;
+            border: 1px solid aquamarine;
+        }
+        .timeBox {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: black;
+            color: white;
+            line-height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <span>{{bomb}}</span>
+        <span class="timeBox">{{time}}</span>
+        <button @click="pause">暂停/开始</button>
+        <button @click="reSet">重新计时</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                bomb: '炸弹滴滴中...',
+                time: 5,
+                timeID: null,
+                isTiming: true,
+            },
+            methods: {
+                timer: function() {
+                    this.timeID = setInterval(function() {
+                            app.time -= 1;
+                    }, 1000)
+                },
+                pause: function() {
+                    if(this.isTiming){
+                        console.log('停止计时!');
+                        clearInterval(this.timeID);
+                    }
+                    else{
+                        console.log('开始计时!');
+                        this.timer();
+                    }
+                    this.isTiming = !this.isTiming;
+                },
+                reSet: function() {
+                    this.time = 5;
+                    this.bomb = '炸弹滴滴中...'
+                    this.timer();
+                }
+            },
+            watch: {
+                time: function(val) {
+                    console.log(val);
+                    if(val == 0) {
+                        clearInterval(this.timeID);
+                        console.log('倒计时结束啦!');
+                        this.bomb = 'bomb!!!';
+                    }
+                }
+            }
+        })
+        // 加载完后启动计时器
+        window.onload = function() {
+            app.timer();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图搭建</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .swiper {
+            position: relative;
+            width: 400px;
+            height: 240px;
+            margin: 100px auto;
+        }
+
+        .swiper img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper .con {
+            display: none;
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 30px;
+            color: #fafafb;
+            font-size: 14px;
+            line-height: 30px;
+            background-color: rgba(0, 0, 0, .3);
+            transition: .3s;
+            cursor: pointer;
+        }
+        .swiper .con:hover {
+            background-color: rgba(0, 0, 0, .6);
+        }
+        .swiper .left {
+            left: 0;
+            text-indent: 3px;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .swiper .right {
+            right: 0;
+            border-radius: 15px 0 0 15px;
+        }
+
+        .swiper .right span{
+            margin-left: 6px;
+        }
+
+        .dotArea {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            margin-left: -60px;
+            width: 120px;
+            padding: 5px 0;
+            background-color: rgba(255, 255, 255, .3);
+            border-radius: 20px;
+        }
+        .dotArea .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 5px lightgray;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper">
+        <img src="../images/sky.jpg" alt="">
+        <div class="left con"><span><</span></div>
+        <div class="right con"><span>></span></div>
+        <ul class="dotArea">
+            <li class="dot"></li>
+            <li class="dot"></li>
+            <li class="dot"></li>
+            <li class="dot"></li>
+        </ul>
+    </div>
+    <!-- 
+        问题:
+
+        1. 图片之间转换太慢了
+        2. 原生js的函数写的太乱了, 是不是应该包装js文件
+     -->
+    <script>
+        var imgList = [
+            '../images/sky.jpg',
+            '../images/desert.jpg',
+            '../images/ice-woods.jpg',
+            '../images/nature.jpg'
+        ]
+        var index = Math.floor(Math.random() * 4);
+        
+        window.addEventListener('DOMContentLoaded', function() {
+            // 随机显示图片
+            var img = document.querySelector('img');
+            img.src = imgList[index];
+            // 设置相应圆点
+            var dots = document.querySelectorAll('.dot');
+            //封装更改圆点的排他函数
+            var setDot = function(idx) {
+                dots.forEach((item) => {
+                    item.style.backgroundColor = '#fafafb'
+                })
+                dots[idx].style.backgroundColor = 'black';
+            }
+            setDot(index);    // 设置初始圆点
+            
+            // 定义用户点击控件函数
+            var turnLeft = function() {
+                console.log('left con');
+                // 更新图片变化方向
+                flag = 0;
+                // 只需要将index-1, 如果小于0则跳到最后一张
+                index -= 1;
+                index = index < 0 ? imgList.length - 1 : index;
+                img.src = imgList[index];
+                setDot(index);
+            };
+            var turnRight = function() {
+                console.log('right con');
+                // 更新图片变化方向
+                flag = 1;
+                // 只需要将index+1, 超出则求余回到第一张图片
+                index += 1;
+                index = index % imgList.length;
+                img.src = imgList[index];
+                setDot(index);
+            };
+            
+            // 控制轮播图自动更改的方向, 默认为右
+            var flag = 1;
+            // 绑定定时器
+            var timer = null; 
+            function setTimer() {
+                // 设置定时器, 过两秒更新一次图片, 以用户点击的最后一次方向为主
+                timer = setInterval(function(){
+                    if(flag === 1){
+                        turnRight();
+                    }
+                    else {
+                        turnLeft();
+                    }
+                }, 3000);
+            }
+            // 初始化定时器
+            setTimer();
+
+            // 核心监听事件注册
+            var swiper = document.querySelector('.swiper');
+            var cons = document.querySelectorAll('.con');
+            swiper.addEventListener('mouseenter', function() {
+                console.log(cons);
+                cons.forEach((item) => {
+                    item.style.display = 'block';
+                })
+                // 当用户介入控制时, 清除定时器
+                clearInterval(timer);
+            });
+            swiper.addEventListener('mouseleave', function() {
+                cons.forEach((item) => {
+                    item.style.display = 'none';
+                })
+                // 当用户脱离控制时, 重启定时器
+                setTimer();
+            })
+
+            // 为左右控件添加事件
+            cons[0].addEventListener('click', turnLeft);
+            cons[1].addEventListener('click', turnRight);
+
+            // 为点击小圆点添加事件
+            dots.forEach((item, idx) => {
+                item.addEventListener('click', function() {
+                    // 此时index是全局的index
+                    index = idx;
+                    img.src = imgList[index];
+                    setDot(index);
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

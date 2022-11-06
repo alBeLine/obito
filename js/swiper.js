@@ -94,7 +94,8 @@ window.addEventListener('load', function() {
         if(num == 0) {
             // 跳转最后一张图
             num = imgBox.children.length - 1;
-            imgBox.style.left = -num*imgBox.clientWidth + 'px';
+            // 这里不是imgBox的长度, 而是图片显示框的长度才对
+            imgBox.style.left = -num*swiper.clientWidth + 'px';
         }
         // 每向右移动num++, 取反盒子向左移动
         num--;

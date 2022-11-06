@@ -16,6 +16,10 @@
     <input type="text">
     <button class="set">设置</button>
     <button class="read">读取</button>
+    <p>下面是会话缓存:</p>
+    <input type="text" class="input2">
+    <button class="set2">设置</button>
+    <button class="read2">读取</button>
     <div class="swiper">
         <ul class="imgBox">
             <li><img src="./images/sky.jpg" alt=""></li>
@@ -44,6 +48,19 @@
 
         read.onclick = function() {
             alert(localStorage.getItem('uname'));
+        }
+        
+        // 测试会话存储的生命周期
+        var input2 = document.querySelector('.input2');
+        var setT2 = document.querySelector('.set2');
+        var read2 = document.querySelector('.read2');
+        
+        setT2.addEventListener('click', function() {
+            sessionStorage.setItem('student', input2.value);
+        })
+
+        read2.onclick = function() {
+            alert(sessionStorage.getItem('student'));
         }
     </script>
 </body>

@@ -13,6 +13,9 @@
 </head>
 
 <body>
+    <input type="text">
+    <button class="set">设置</button>
+    <button class="read">读取</button>
     <div class="swiper">
         <ul class="imgBox">
             <li><img src="./images/sky.jpg" alt=""></li>
@@ -30,9 +33,18 @@
         </ol>
     </div>
     <script>
-        // 测试不同服务器的本地存储是否能读取
-        localStorage.setItem('sname', 'test');
-        console.log(localStorage.getItem('uname'));
+        // 测试本地存储的存在
+        var input = document.querySelector('input');
+        var setT = document.querySelector('.set');
+        var read = document.querySelector('.read');
+        
+        setT.addEventListener('click', function() {
+            localStorage.setItem('uname', input.value);
+        })
+
+        read.onclick = function() {
+            alert(localStorage.getItem('uname'));
+        }
     </script>
 </body>
 

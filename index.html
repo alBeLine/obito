@@ -5,88 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obitoの主页</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        html {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-        }
-        #cvs {
-            position: absolute;
-            z-index: -999;
-        }
-        #app {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 180px;
-            background-color: #fff;
-            border-radius: 20px;
-            box-shadow: 0 0 3px 0px rgba(0, 0, 0, .3);
-        }
-        audio {
-            position: absolute;
-            top: 100px;
-            left: 50px;
-            visibility: hidden;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./js/main.js"></script>
 </head>
 <body style="margin: 0;">
-    <audio src="./utils/bgm.mp3" controls></audio>
-    <canvas id="cvs" style="background: linear-gradient(to right, #141e30, #243b55);"></canvas>
+
     <div id="app">
         <h1>This is my web!</h1>
         <h3>Hello</h3>
     </div>
-    
-    <script>
-        const cvs = document.querySelector('#cvs');
-        const ctx = cvs.getContext('2d');
-        const {clientWidth: width, clientHeight: height} = document.documentElement;
-        cvs.width = width;
-        cvs.height = height;
-        // 填充白色的雪点
-        ctx.fillStyle = '#ffffff';
-        // 生成雪点随机位置数组
-        const bgColors = Array.from(new Array(400)).map(item => {
-            return {
-                x: Math.random() * width,
-                y: Math.random() * height,
-                // 定义每个雪点的下降速度
-                step: Math.random() * 2.5 + 0.5
-            }
-        });
-        const render = () => {
-            ctx.clearRect(0, 0, width, height);
-            ctx.beginPath();
-            bgColors.forEach(item => {
-                // 如果超出页面就重置为0, 否则按速度下降
-                item.y = item.y > height ? 0 : (item.y + item.step)
-                //绘制雪点
-                ctx.rect(item.x, item.y, 3, 3);
-            })
-            ctx.fill();
-            // 递归实现循环绘制
-            requestAnimationFrame(render);
-        }
-        // 调用render
-        render();
-
-        (function(){
-            var music = document.querySelector('audio');
-            music.play();
-        }())
-    </script>
 </body>
 </html>

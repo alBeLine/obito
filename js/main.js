@@ -1,38 +1,25 @@
-window.addEventListener('loaded', function(){
-    // const cvs = document.querySelector('#cvs');
-    //     const ctx = cvs.getContext('2d');
-    //     const {clientWidth: width, clientHeight: height} = document.documentElement;
-    //     cvs.width = width;
-    //     cvs.height = height;
-    //     // 填充白色的雪点
-    //     ctx.fillStyle = '#ffffff';
-    //     // 生成雪点随机位置数组
-    //     const bgColors = Array.from(new Array(400)).map(item => {
-    //         return {
-    //             x: Math.random() * width,
-    //             y: Math.random() * height,
-    //             // 定义每个雪点的下降速度
-    //             step: Math.random() * 2.5 + 0.5
-    //         }
-    //     });
-    //     const render = () => {
-    //         ctx.clearRect(0, 0, width, height);
-    //         ctx.beginPath();
-    //         bgColors.forEach(item => {
-    //             // 如果超出页面就重置为0, 否则按速度下降
-    //             item.y = item.y > height ? 0 : (item.y + item.step)
-    //             //绘制雪点
-    //             ctx.rect(item.x, item.y, 3, 3);
-    //         })
-    //         ctx.fill();
-    //         // 递归实现循环绘制
-    //         requestAnimationFrame(render);
-    //     }
-    //     // 调用render
-    //     render();
+window.addEventListener('load', function(){
+    /* 背景流星雨制作 */
+    let starM = document.querySelector('.shooting-star');
+    let contain = document.querySelector('.cover-mask');
 
-        // (function(){
-        //     var music = document.querySelector('audio');
-        //     music.play();
-        // }())
+    function getRdNum() {
+        let rdStep = Math.ceil(Math.random() * 10);
+        console.log(rdStep);
+        let top = 35 - 5*rdStep +'%';
+        let right = 5 + 3*rdStep + '%';
+        return [top, right];
+    }
+
+    setInterval(function() {
+        let star = starM.cloneNode(true);
+
+        let top, right;
+        [top, right] = getRdNum();
+        top < 0 || right < 8 ? [top] = getRdNum() : top;        
+        star.style.top = top
+        star.style.right = right;
+        contain.removeChild(contain.children[0]);
+        contain.appendChild(star);
+    }, 3000);
 })

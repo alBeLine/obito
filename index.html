@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="./public/favicon.png" type="image/x-icon">
     <title>博古诺page</title>
     <link rel="stylesheet" href="./css/main.css">
+    <script src="./js/main.js"></script>
 </head>
 <body>
     <div class="header">
@@ -16,7 +17,12 @@
         </div>
         <div class="nav">
             <ul>
-                <li><input class="search-ipt" type="text" placeholder="什么都可以搜到哦~"></li>
+                <li>
+                    <input class="search-ipt" type="text" placeholder="什么都可以搜到哦~">
+                    <form id="srch-form" action="http://www.baidu.com/s" style="display: none;">
+                        <input id="search" type="text" name="wd">
+                    </form>
+                </li>
                 <li><a href="javascript:;">个人信息</a></li>
                 <li><a href="javascript:;">每日课表</a></li>
                 <li><a href="javascript:;">日记</a></li>
@@ -35,10 +41,36 @@
             </div>
         </div>
     </div class="header">
-    <div class="main w">
-        <aside></aside>
-        <section class="title">Obito</section>
+    <div class="title">
+        Obito
     </div>
-    <footer></footer>
+    <div class="main w">
+        <div class="sideBar">
+            <div id="date"></div>
+            <div class="courseBox">
+                <ul id="lessons">
+                    <li class="lesson">概率论与数理统计</li>
+                    <li class="lesson">概率论1</li>
+                    <li class="lesson">概率论2</li>
+                    <li class="lesson">概率论3</li>
+                    <li class="lesson">概率论4</li>
+                    <li class="lesson">概率论5</li>
+                    <li class="lesson">概率论6</li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="idols">
+                <ul>
+                    <li class="profile"></li>
+                    <li class="profile"></li>
+                    <li class="profile"></li>
+                    <li class="profile"></li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    <div class="footer"></div>
 </body>
 </html>
